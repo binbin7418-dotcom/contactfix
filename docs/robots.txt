@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://binbin7418-dotcom.github.io/contactfix/sitemap.xml
