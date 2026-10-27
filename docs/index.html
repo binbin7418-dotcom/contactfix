@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ContactFix — vCard (VCF) Duplicate Merge & Repair | One Price, Whole Toolbox</title>
+<meta name="description" content="ContactFix merges duplicate vCard contacts field-by-field (nothing lost), repairs garbled 2.1 encodings and missing names, and proves it with a re-check report. Original file never overwritten. 100% local, one-time $29.">
+<style>
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;margin:0;color:#1c2733;line-height:1.6;background:#fbfcfe}
+  .wrap{max-width:820px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:2rem;line-height:1.25;margin:.2em 0}
+  h2{margin-top:2em;font-size:1.25rem}
+  .sub{font-size:1.1rem;color:#43536a}
+  .cta{display:inline-block;background:#0b6e4f;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600;margin:16px 0}
+  .card{background:#fff;border:1px solid #e3e9f0;border-radius:10px;padding:18px 20px;margin:14px 0}
+  .num{font-weight:700;color:#0b6e4f}
+  table{border-collapse:collapse;width:100%;margin:8px 0}
+  th,td{border:1px solid #e3e9f0;padding:8px 12px;text-align:left;vertical-align:top}
+  th{background:#f2f6f9}
+  footer{color:#7a8798;font-size:.85rem;margin-top:48px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p><strong>ContactFix</strong></p>
+  <h1>Your address book has the same person three times —<br>and one of the copies is garbled.</h1>
+  <p class="sub">ContactFix takes the .vcf file from your iPhone, Android, Google or Outlook export, merges duplicate contacts field-by-field so nothing is lost, repairs damaged entries, and hands you back a clean new file plus a report that proves what it did. Your original file is never overwritten.</p>
+  <a class="cta" href="https://binbinster.gumroad.com/l/contactfix-vcard-duplicate-merge">Get ContactFix — $29 one-time</a>
+
+  <h2>One price, the whole toolbox</h2>
+  <div class="card">
+    <p>Other vendors split this into four separate products — a splitter, a merger, an exporter, a duplicate remover — and sell you each one. ContactFix is the whole job in one $29 tool:</p>
+    <ul>
+      <li><strong>Duplicate detection</strong> — by normalised phone (country code unified, so +86 138…, tel:+86138… and bare 138… count as one number), by email + name, across mixed vCard 2.1 / 3.0 / 4.0 files</li>
+      <li><strong>Lossless merge</strong> — fields are unioned, never picked-and-dropped; conflicts are written verbatim into a field-level merge log</li>
+      <li><strong>Damage repair</strong> — quoted-printable / base64 mojibake decoded (UTF-8, GBK and more), missing names rebuilt, version chaos normalised to clean vCard 3.0</li>
+      <li><strong>Re-check report</strong> — the output is re-parsed and re-scanned: duplicate groups remaining, contact-count conservation, fields lost (target: none)</li>
+    </ul>
+  </div>
+
+  <h2>The merge safety report — the part nobody else shows you</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Never overwrites.</strong> Your export stays byte-identical (we verify this in our own tests with hashes). Output is a new <code>.cleaned.vcf</code> file.</li>
+      <li><strong>Same email ≠ same person.</strong> Two contacts sharing an email but carrying different names are <em>not</em> merged — they land in a "Needs your review" list, with the reason printed.</li>
+      <li><strong>Every group explains itself.</strong> The merge log shows why each group matched (which phone, which email), which value was kept for every field, and what the losing values were.</li>
+    </ul>
+  </div>
+
+  <h2>Before / after — our seeded acceptance test, measured</h2>
+  <div class="card">
+    <table>
+      <tr><th></th><th>Before</th><th>After ContactFix</th></tr>
+      <tr><td>Mixed-dialect test file (vCard 2.1 + 3.0 + 4.0)</td><td>9 contacts, one person in 3 cards, 2 garbled names, 1 card with no name field</td><td><span class="num">7 contacts</span>, the 3 cards merged into 1 with every field kept, both garbled names decoded, missing name rebuilt</td></tr>
+      <tr><td>Repairs applied</td><td>—</td><td><span class="num">8</span> (5 encoding decodings, 1 phone-URI normalisation, 1 name rebuilt, 1 name structure synthesised)</td></tr>
+      <tr><td>Two different people, one shared email</td><td>2 contacts a naive merger would fuse</td><td><span class="num">Still 2 contacts</span> — flagged in the review list instead</td></tr>
+      <tr><td>500-contact file, 40 planted duplicate pairs</td><td>500 contacts</td><td><span class="num">460 contacts</span> — exactly the 40 planted groups found, re-check shows 0 duplicate groups, 0 fields lost, 0 new errors</td></tr>
+      <tr><td>Your original file</td><td>untouched</td><td>untouched (hash-verified in testing)</td></tr>
+    </table>
+    <p>Full seeded acceptance run: <span class="num">36/36 checks passed</span>. The 500-contact file was fixed and re-checked in 0.28 seconds on the test machine.</p>
+  </div>
+
+  <h2>How it works</h2>
+  <div class="card">
+    <ol>
+      <li>Export your contacts as a .vcf file (iPhone, Android, Google Contacts and Outlook all offer this)</li>
+      <li>Open ContactFix, pick the file — run a scan-only report first if you like; it writes nothing</li>
+      <li>Or fix: get the cleaned .vcf plus the merge &amp; re-check report, and import the cleaned file wherever you keep your contacts</li>
+    </ol>
+    <p>Windows 10/11. No account, no subscription, no upload — contacts are the most private data you own, and they never leave your computer.</p>
+  </div>
+
+  <a class="cta" href="https://binbinster.gumroad.com/l/contactfix-vcard-duplicate-merge">Get ContactFix — $29 one-time</a>
+
+  <footer>
+    <p>Honest limits: matching is deterministic rules, not fuzzy AI. The same person entered twice with no shared phone, no shared email and no identical display name will not be merged (the review list may catch the same-name case). Two different people who share a phone line (a family landline on both cards) will be grouped by that shared phone — the merge log prints the exact reason behind every group, so read it before importing; undoing is easy because your original file is untouched. Output is vCard 3.0, which every mainstream contacts app imports. Exotic parameter encodings are carried through verbatim rather than interpreted.</p>
+  </footer>
+</div>
+</body>
+</html>
