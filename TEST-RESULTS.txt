@@ -1,0 +1,54 @@
+ContactFix — TEST RESULTS (seeded acceptance, run for real on 2026-10-26)
+========================================================================
+Environment: Python 3.12.3, standard library only (no third-party
+dependencies) — Linux test VM.
+Harness: dev/test_acceptance.py (seed .vcf files with known ground truth,
+engine imported from repo/contact_fix.py; real files throughout, originals
+hashed before/after).
+
+Seed file 1 — "small" (9 cards, mixed 2.1 x2 / 3.0 x5 / 4.0 x2):
+  A1/A2/A3  same person (Zhang Wei) in 3.0 / 4.0 / 3.0 dress: +86 mobile
+            in three formats (+86 138-0011-2233, tel:+8613800112233 URI,
+            bare 13800112233), shared email on two cards, ORG+TITLE only
+            on the 4.0 card, NOTE only on the third, PHOTO only on A1
+  B1/B2     two DIFFERENT people (Li Na / Li Qiang) sharing one email —
+            must NOT merge, must land in the human-review list
+  C1        vCard 2.1, UTF-8 quoted-printable Chinese name (the classic
+            mojibake case) + a quoted-printable soft-line-break NOTE
+  C2        vCard 2.1, GBK quoted-printable Chinese name
+  D1        no FN, only N -> FN generated from N
+  D2        FN only, no N -> N synthesised in the output
+
+Seed file 2 — "big": 500 cards = 420 unique + 40 planted duplicate pairs.
+
+Measured results, seed file 1:
+  repairs applied: 8 (1 tel:-URI normalisation, 5 quoted-printable
+  decodings, 1 FN generated from N, 1 N synthesised)
+  duplicate groups found: 1 (exactly the 3 Zhang Wei cards)
+  review pairs: 1 (Li Na <-> Li Qiang, shared email, different names)
+  output: 9 in -> 7 out; merged card kept the single unified phone number,
+  the email, ORG "Example Corp", TITLE "Engineer", NOTE "college friend"
+  and the PHOTO (bytes identical); the three FN forms are all recorded in
+  the merge log; both shared-email contacts remain separate.
+
+Measured results, seed file 2:
+  duplicate groups detected: 40 / 40 planted, no extra groups
+  output: 500 in -> 460 out; fix + re-check elapsed 0.28 s on the test VM
+
+ACCEPTANCE: 36/36 checks passed, including:
+  [PASS] 2.1 QP UTF-8 name decoded (Liu Xiaoming)
+  [PASS] 2.1 QP GBK name decoded (Wang Fang)
+  [PASS] QP soft-line-break NOTE decoded whole
+  [PASS] missing FN generated from N ('Mei Chen')
+  [PASS] exactly 1 merge group in small file; members are the 3 planted
+  [PASS] shared-email pair NOT merged; appears in review list with reason
+  [PASS] conservation check passes (in - merged-away = out), both files
+  [PASS] re-check: duplicate groups remaining = 0, both files
+  [PASS] field-union check passes (逐字段并集断言, nothing lost)
+  [PASS] new errors introduced = 0
+  [PASS] original file untouched (sha256 identical before/after)
+  [PASS] merged PHOTO bytes identical to the planted bytes
+  [PASS] FN conflict written to the merge log
+  [PASS] output normalised to vCard 3.0 throughout
+  [PASS] planted groups detected exactly (40/40) in the 500-card file
+  Full per-check log: dev/test_acceptance.py output (acceptance_results).
